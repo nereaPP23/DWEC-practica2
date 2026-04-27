@@ -1298,5 +1298,44 @@
     "comb_electrico": "Eléctrico",
     "peso": 1335,
     "siniestro": 0
+  },
+  {
+    "id_poliza": "ID00999",
+    "vigencia": 2,
+    "matricula": "8888VBF",
+    "edad_coche": 3,
+    "edad_tomador": 18,
+    "cilindrada": 12,
+    "cilindros": 12,
+    "transmision": "Manual",
+    "comb_electrico": "Combustión",
+    "peso": 12,
+    "siniestro": 0
+  },
+  {
+    "id_poliza": "ID78945",
+    "vigencia": 2,
+    "matricula": "7927DFG",
+    "edad_coche": 7,
+    "edad_tomador": 34,
+    "cilindrada": 34,
+    "cilindros": 34,
+    "transmision": "Automática",
+    "comb_electrico": "Eléctrico",
+    "peso": 34444,
+    "siniestro": 1
+  },
+  {
+    "id_poliza": "ID00777",
+    "vigencia": 12,
+    "matricula": "0000SSS",
+    "edad_coche": 9,
+    "edad_tomador": 55,
+    "cilindrada": 100,
+    "cilindros": 100,
+    "transmision": "Automática",
+    "comb_electrico": "Combustión",
+    "peso": 10000,
+    "siniestro": 0
   }
 ]
