@@ -3,11 +3,12 @@ import TablaPolizas from "./components/TablaPolizas";
 import FormularioPolizas from "./components/FormularioPolizas";
 import EditarPolizas from "./components/EditarPolizas";
 import EstadisticasPolizas from "./components/EstadisticasPolizas";
+import "./App.css";
 
 const App = () => {
   return (
     <>
-      <nav>
+      <nav className="navbar">
         <Link to="/">Ver Pólizas</Link>
         <Link to="/nueva">Nueva Póliza</Link>
         <Link to="/editar">Editar Póliza</Link>

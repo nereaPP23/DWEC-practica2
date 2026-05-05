@@ -14,7 +14,7 @@ router.get("/polizas", getAll);
 router.get("/polizas/stats", getStats);
 router.get("/polizas/:id_poliza", getById);
 router.post("/polizas", create);
-router.put("/polizas", update);
+router.put("/polizas/:id_poliza", update);
 router.delete("/polizas/:id_poliza", remove);
 
 export default router;

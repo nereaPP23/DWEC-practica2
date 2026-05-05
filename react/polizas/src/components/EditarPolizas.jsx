@@ -1,4 +1,246 @@
-const EditarPolizas = () => {
-  return <div>EditarPolizas</div>;
+import { useState } from "react";
+
+const EditarPoliza = () => {
+  const [idBusqueda, setIdBusqueda] = useState("");
+  const [encontrado, setEncontrado] = useState(false);
+
+  const [formData, setFormData] = useState({
+    id_poliza: "",
+    vigencia: "",
+    matricula: "",
+    edad_coche: "",
+    edad_tomador: "",
+    cilindrada: "",
+    cilindros: "",
+    transmision: "Manual",
+    comb_electrico: "Combustión",
+    peso: "",
+    siniestro: 0,
+  });
+
+  const [error, setError] = useState("");
+  const [exito, setExito] = useState("");
+
+  const buscarPoliza = async () => {
+    setError("");
+    setExito("");
+    try {
+      const respuesta = await fetch(
+        `http://localhost:3001/api/polizas/${idBusqueda}`,
+      );
+
+      if (respuesta.status === 404) {
+        setError("No existe ninguna póliza con ese ID");
+        setEncontrado(false);
+        return;
+      }
+
+      const datos = await respuesta.json();
+      setFormData(datos);
+      setEncontrado(true);
+    } catch (err) {
+      setError("Error al conectar con el servidor");
+    }
+  };
+
+  const handleChange = (e) => {
+    const nombreCaja = e.target.name;
+    let texto = e.target.value;
+
+    if (nombreCaja === "id_poliza" || nombreCaja === "matricula") {
+      texto = texto.toUpperCase();
+    }
+
+    let copiaDatos = {
+      id_poliza: formData.id_poliza,
+      vigencia: formData.vigencia,
+      matricula: formData.matricula,
+      edad_coche: formData.edad_coche,
+      edad_tomador: formData.edad_tomador,
+      cilindrada: formData.cilindrada,
+      cilindros: formData.cilindros,
+      transmision: formData.transmision,
+      comb_electrico: formData.comb_electrico,
+      peso: formData.peso,
+      siniestro: formData.siniestro,
+    };
+
+    copiaDatos[nombreCaja] = texto;
+    setFormData(copiaDatos);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setExito("");
+
+    try {
+      const respuesta = await fetch(
+        `http://localhost:3001/api/polizas/${formData.id_poliza}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id_poliza: formData.id_poliza,
+            matricula: formData.matricula,
+            vigencia: parseInt(formData.vigencia),
+            edad_coche: parseInt(formData.edad_coche),
+            edad_tomador: parseInt(formData.edad_tomador),
+            cilindrada: parseInt(formData.cilindrada),
+            cilindros: parseInt(formData.cilindros),
+            transmision: formData.transmision,
+            comb_electrico: formData.comb_electrico,
+            peso: parseInt(formData.peso),
+            siniestro: parseInt(formData.siniestro),
+          }),
+        },
+      );
+
+      const datos = await respuesta.json();
+      if (datos.error) {
+        setError(datos.error);
+      } else {
+        setExito("Póliza actualizada correctamente");
+      }
+    } catch (err) {
+      setError("Error al actualizar");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Editar póliza existente</h2>
+
+      <div>
+        <label>Introduce el ID de la póliza a buscar: </label>
+        <input
+          type="text"
+          value={idBusqueda}
+          maxLength={7}
+          onChange={(e) => setIdBusqueda(e.target.value.toUpperCase())}
+          placeholder="Ej: ID00001"
+        />
+        <button onClick={buscarPoliza}>Buscar</button>
+      </div>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {exito && <p style={{ color: "green" }}>{exito}</p>}
+
+      {encontrado && (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>ID Póliza (No modificable):</label>
+            <input
+              type="text"
+              name="id_poliza"
+              value={formData.id_poliza}
+              disabled
+            />
+          </div>
+          <div>
+            <label>Vigencia (meses):</label>
+            <input
+              type="number"
+              name="vigencia"
+              value={formData.vigencia}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Matrícula (No modificable):</label>
+            <input
+              type="text"
+              name="matricula"
+              value={formData.matricula}
+              disabled
+            />
+          </div>
+          <div>
+            <label>Edad del coche:</label>
+            <input
+              type="number"
+              name="edad_coche"
+              value={formData.edad_coche}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Edad del tomador:</label>
+            <input
+              type="number"
+              name="edad_tomador"
+              value={formData.edad_tomador}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Cilindrada:</label>
+            <input
+              type="number"
+              name="cilindrada"
+              value={formData.cilindrada}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Cilindros:</label>
+            <input
+              type="number"
+              name="cilindros"
+              value={formData.cilindros}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Transmisión:</label>
+            <select
+              name="transmision"
+              value={formData.transmision}
+              onChange={handleChange}
+            >
+              <option value="Manual">Manual</option>
+              <option value="Automática">Automática</option>
+            </select>
+          </div>
+          <div>
+            <label>Combustible:</label>
+            <select
+              name="comb_electrico"
+              value={formData.comb_electrico}
+              onChange={handleChange}
+            >
+              <option value="Combustión">Combustión</option>
+              <option value="Eléctrico">Eléctrico</option>
+            </select>
+          </div>
+          <div>
+            <label>Peso (kg):</label>
+            <input
+              type="number"
+              name="peso"
+              value={formData.peso}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Siniestro:</label>
+            <select
+              name="siniestro"
+              value={formData.siniestro}
+              onChange={handleChange}
+            >
+              <option value={0}>No</option>
+              <option value={1}>Sí</option>
+            </select>
+          </div>
+
+          <button type="submit" style={{ marginTop: "10px" }}>
+            Guardar Cambios
+          </button>
+        </form>
+      )}
+    </div>
+  );
 };
-export default EditarPolizas;
+
+export default EditarPoliza;

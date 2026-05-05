@@ -24,36 +24,40 @@ export const getById = async (req, res) => {
 export const getStats = async (req, res) => {
   try {
     const polizas = await obtenerTodas();
-
     const { transmision, comb_electrico, siniestro } = req.query;
 
     let filtradas = polizas.filter((p) => {
       return (
         (!transmision || p.transmision === transmision) &&
         (!comb_electrico || p.comb_electrico === comb_electrico) &&
-        (siniestro === undefined || String(p.siniestro) === siniestro)
+        (siniestro === undefined ||
+          siniestro === "" ||
+          p.siniestro === parseInt(siniestro))
       );
     });
 
     if (filtradas.length === 0) return res.json({ total: 0 });
 
-    const conSiniestro = filtradas.filter(
-      (p) => p.siniestro === true || p.siniestro === "true",
-    ).length;
-    const mediaEdadCoche =
+    const conSiniestro = filtradas.filter((p) => p.siniestro === 1).length;
+    const sinSiniestro = filtradas.length - conSiniestro;
+
+    const mediaEdadCoche = (
       filtradas.reduce((acc, p) => acc + Number(p.edad_coche), 0) /
-      filtradas.length;
-    const mediaEdadTomador =
+      filtradas.length
+    ).toFixed(2);
+
+    const mediaEdadTomador = (
       filtradas.reduce((acc, p) => acc + Number(p.edad_tomador), 0) /
-      filtradas.length;
+      filtradas.length
+    ).toFixed(2);
 
     res.json({
       total: filtradas.length,
-      porcentajeSiniestros: ((conSiniestro / filtradas.length) * 100).toFixed(
-        2,
-      ),
-      mediaEdadCoche: mediaEdadCoche.toFixed(2),
-      mediaEdadTomador: mediaEdadTomador.toFixed(2),
+      conSiniestro,
+      sinSiniestro,
+      porcentajeSiniestro: ((conSiniestro / filtradas.length) * 100).toFixed(2),
+      mediaEdadCoche,
+      mediaEdadTomador,
     });
   } catch (err) {
     res.status(500).json({ error: "Error al calcular estadísticas" });

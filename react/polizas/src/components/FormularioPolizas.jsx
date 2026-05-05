@@ -25,7 +25,11 @@ const FormularioPolizas = () => {
     //target.name es el nombre de la caja de texto
     //target.value es el valor del texto
     const nombreCaja = e.target.name;
-    const texto = e.target.value;
+    let texto = e.target.value;
+
+    if (nombreCaja === "id_poliza" || nombreCaja === "matricula") {
+      texto = texto.toUpperCase();
+    }
 
     let copiaDatos = {
       id_poliza: formData.id_poliza,
@@ -159,6 +163,7 @@ const FormularioPolizas = () => {
           <input
             type="text"
             name="id_poliza"
+            maxLength={7}
             value={formData.id_poliza}
             onChange={handleChange}
           />
@@ -177,6 +182,7 @@ const FormularioPolizas = () => {
           <input
             type="text"
             name="matricula"
+            maxLength={7}
             value={formData.matricula}
             onChange={handleChange}
           />

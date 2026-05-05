@@ -1313,29 +1313,29 @@
     "siniestro": 0
   },
   {
-    "id_poliza": "ID78945",
-    "vigencia": 2,
-    "matricula": "7927DFG",
-    "edad_coche": 7,
-    "edad_tomador": 34,
-    "cilindrada": 34,
-    "cilindros": 34,
-    "transmision": "Automática",
-    "comb_electrico": "Eléctrico",
-    "peso": 34444,
-    "siniestro": 1
-  },
-  {
     "id_poliza": "ID00777",
     "vigencia": 12,
     "matricula": "0000SSS",
-    "edad_coche": 9,
-    "edad_tomador": 55,
+    "edad_coche": 10,
+    "edad_tomador": 60,
     "cilindrada": 100,
     "cilindros": 100,
-    "transmision": "Automática",
+    "transmision": "Manual",
+    "comb_electrico": "Eléctrico",
+    "peso": 20000,
+    "siniestro": 1
+  },
+  {
+    "id_poliza": "ID00555",
+    "vigencia": 5,
+    "matricula": "1234RLF",
+    "edad_coche": 5,
+    "edad_tomador": 19,
+    "cilindrada": 200,
+    "cilindros": 200,
+    "transmision": "Manual",
     "comb_electrico": "Combustión",
-    "peso": 10000,
+    "peso": 30000,
     "siniestro": 0
   }
 ]
